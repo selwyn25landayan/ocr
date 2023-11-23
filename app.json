@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ocr",
-    "slug": "ocr",
+    "name": "ExpenseTracker",
+    "slug": "ExpenseTracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
