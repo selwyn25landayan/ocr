@@ -98,6 +98,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 50,
     textAlign: "center",
     paddingTop: 20,
+
   },
 
   lineDivider: {

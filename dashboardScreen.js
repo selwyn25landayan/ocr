@@ -55,7 +55,7 @@ export default function DashboardScreen({ navigation }) {
       <PieChart
         data={chartData}
         width={screenWidth * 0.9} 
-        height={130}
+        height={screenWidth * 0.4} 
         chartConfig={{
           backgroundGradientFrom: "black",
           backgroundGradientTo: "black",
@@ -63,7 +63,7 @@ export default function DashboardScreen({ navigation }) {
         }}
         accessor="population"
         backgroundColor="transparent"
-        paddingLeft={screenWidth * 0.05} // Responsive padding
+        paddingLeft={screenWidth * 0.05} 
         absolute
       />
 
@@ -72,7 +72,7 @@ export default function DashboardScreen({ navigation }) {
         <BarChart
           data={barChartData}
           width={screenWidth * 0.95} 
-          height={100} 
+          height={screenWidth * 0.4}
           yAxisSuffix="%"
           chartConfig={{
             backgroundGradientFrom: "black",
@@ -86,9 +86,8 @@ export default function DashboardScreen({ navigation }) {
         <Text style={styles.chartDateTitle}>Month</Text>
         <LineChart
           data={lineChartData}
-          width={screenWidth * 0.95} // Responsive width
-          height={130} // Responsive height
-          yAxisSuffix="%"
+          width={screenWidth * 0.95} 
+          height={screenWidth * 0.4} 
           chartConfig={{
             backgroundGradientFrom: "black",
             backgroundGradientTo: "black",
