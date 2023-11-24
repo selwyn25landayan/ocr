@@ -1,8 +1,6 @@
-// Import the necessary Firebase and AsyncStorage modules
 import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,11 +14,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
-// Set custom persistence to AsyncStorage
-const authPersistence = getReactNativePersistence(AsyncStorage);
-setPersistence(auth, authPersistence);
+// Initialize Firebase Auth with AsyncStorage
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
 
-// Export auth and createUserWithEmailAndPassword
+// Export auth and the auth methods
 export { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword };
