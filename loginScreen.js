@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   useWindowDimensions,
-  Alert,
   Modal
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,6 +16,7 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
 
   const dimensions = useWindowDimensions();
 
@@ -82,20 +82,30 @@ export default function LoginScreen({ navigation }) {
       </Text>
 
       <View>
-        <TextInput
-          style={[styles.textInput, { marginHorizontal: dimensions.width * 0.1 }]}
-          placeholder='Email'
-          placeholderTextColor={'gray'}
-          onChangeText={updateEmail}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={[styles.textInput, { marginHorizontal: dimensions.width * 0.1 }]}
-          placeholder='Password'
-          placeholderTextColor={'gray'}
-          onChangeText={updatePassword}
-          secureTextEntry={true}
-        />
+        <View style={[styles.inputContainer, { marginHorizontal: dimensions.width * 0.1 }]}>
+          <TextInput
+            style={styles.textInput}
+            placeholder='Email'
+            placeholderTextColor={'gray'}
+            onChangeText={updateEmail}
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={[styles.inputContainer, { marginHorizontal: dimensions.width * 0.1 }]}>
+          <TextInput
+            style={styles.textInput}
+            placeholder='Password'
+            placeholderTextColor={'gray'}
+            onChangeText={updatePassword}
+            secureTextEntry={!passwordVisible}
+          />
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => setPasswordVisible(!passwordVisible)}
+          >
+            <Icon name={passwordVisible ? 'eye-slash' : 'eye'} size={20} color="white" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <TouchableOpacity onPress={submitAction}>
@@ -144,14 +154,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  textInput: {
-    paddingLeft: 10,
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: 'white',
     marginVertical: 5,
-    color: 'white',
     borderRadius: 10,
+  },
+  textInput: {
+    flex: 1,
+    paddingLeft: 10,
+    color: 'white',
     height: 50,
+  },
+  icon: {
+    marginRight: 10,
   },
   loginButton: {
     borderColor: 'white',

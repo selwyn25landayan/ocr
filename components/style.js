@@ -5,26 +5,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "black", // Set the background color to black
-    padding: 20,
+    padding: 10,
   },
-  title: {
-    fontSize: 24,
-    margin: 10,
-    fontWeight: "bold",
-    color: "white", // Set the font color to white
-  },
-  date: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: "white", // Set the font color to white
-  },
-  chartDateTitle: {
-    fontSize: 24,
-    margin: 10,
-    marginLeft: 10,
-    fontWeight: "bold",
-    color: "white", // Set the font color to white
-  },
+
+
+
   button: {
     backgroundColor: "transparent",
     margin: 10,
@@ -33,7 +18,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    marginTop: 20,
+    marginTop: 10,
   },
   buttonStyle: {
     alignItems: "center",

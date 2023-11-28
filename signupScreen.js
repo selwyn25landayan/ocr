@@ -5,8 +5,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  useWindowDimensions,
-  Alert,
+  useWindowDimensions ,
   Modal
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,9 +15,12 @@ export default function SignUpScreen({ navigation }) {
   const [emailPhone, setEmailPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [signUpSuccessful, setSignUpSuccessful] = useState(false);
+
   const dimensions = useWindowDimensions();
 
   const submitAction = () => {
@@ -88,33 +90,49 @@ export default function SignUpScreen({ navigation }) {
         Just some details to get you in!
       </Text>
 
-      <View>
+      <View style={[styles.inputContainer, { marginHorizontal: dimensions.width * 0.1 }]}>
         <TextInput
-          style={[styles.textInput, { marginHorizontal: dimensions.width * 0.1 }]}
-          placeholder="Email / Phone"
+          style={styles.textInput}
+          placeholder="Email"
           placeholderTextColor={"gray"}
           onChangeText={setEmailPhone}
         />
+      </View>
+
+      <View style={[styles.inputContainer, { marginHorizontal: dimensions.width * 0.1 }]}>
         <TextInput
-          style={[styles.textInput, { marginHorizontal: dimensions.width * 0.1 }]}
+          style={styles.textInput}
           placeholder="Password"
           placeholderTextColor={"gray"}
+          secureTextEntry={!passwordVisible}
           onChangeText={setPassword}
-          secureTextEntry={true}
         />
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => setPasswordVisible(!passwordVisible)}
+        >
+          <Icon name={passwordVisible ? 'eye-slash' : 'eye'} size={20} color="white" />
+        </TouchableOpacity>
+      </View>
+
+      <View style={[styles.inputContainer, {marginHorizontal: dimensions.width * 0.1,}]}>
         <TextInput
-          style={[styles.textInput, { marginHorizontal: dimensions.width * 0.1 }]}
+          style={styles.textInput}
           placeholder="Confirm Password"
           placeholderTextColor={"gray"}
+          secureTextEntry={!confirmPasswordVisible}
           onChangeText={setConfirmPassword}
-          secureTextEntry={true}
         />
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+        >
+          <Icon name={confirmPasswordVisible ? 'eye-slash' : 'eye'} size={20} color="white" />
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity onPress={submitAction}>
-        <Text style={[styles.loginButton, { marginHorizontal: dimensions.width * 0.1 }]}>
-          Sign Up
-        </Text>
+        <Text style={[styles.loginButton, { marginHorizontal: dimensions.width * 0.1 }]}>Sign Up</Text>
       </TouchableOpacity>
 
       <Text style={styles.lineDivider}></Text>
@@ -161,14 +179,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  textInput: {
-    paddingLeft: 10,
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: 'white',
     marginVertical: 5,
-    color: 'white',
     borderRadius: 10,
+    
+  },
+  textInput: {
+    flex: 1,
+    paddingLeft: 10,
+    color: 'white',
     height: 50,
+  },
+  icon: {
+    marginRight: 10,
   },
   loginButton: {
     borderColor: 'white',
