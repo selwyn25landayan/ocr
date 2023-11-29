@@ -49,7 +49,7 @@ export default function CameraDisplay({ route }) {
               },
               features: [
                 {
-                  type: 'TEXT_DETECTION',
+                  type: 'DOCUMENT_TEXT_DETECTION',
                 },
               ],
             },
@@ -65,53 +65,74 @@ export default function CameraDisplay({ route }) {
   };
 
   const extractReceiptDetails = (text) => {
-    // Robust pattern to match a variety of merchant names including uppercase, potentially including "INC" or other corporate designations
-    const merchantNamePattern = /^(?:.*?)([A-Z\s]+(?:INC|LLC|GROUP|CORP|COMPANY|LIMITED|LTD|AG|KG|GMBH))\b/mi;
-    
-    // General date pattern to match a variety of date formats (e.g., MM/DD/YYYY, DD-MM-YYYY, etc.)
+    // Regular expressions to match numeric values (both integers and decimals)
+    const numericValuePattern = /(\d{1,3}(?:,\d{3})*(?:\.\d{0,2})?|\.\d{1,2})/g;
+  
+    // Regular expressions for identifying specific patterns in the text
+    const merchantNamePattern = /^[A-Z\s]*(?:INC|LLC|GROUP|CORP|COMPANY|LIMITED|LTD|AG|KG|GMBH)\b/mi;
     const datePattern = /\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})\b/;
-    
-    // General pattern to match a variety of ways that a total amount may be indicated
-    const totalAmountPattern = /(?:SUB TOTAL|TOTAL|TOTAL AMOUNT DUE|AMOUNT DUE|TOTAL DUE)\s*(?:DUE|PAID)?\s*[:$]*\s*([$€£]?\s*\d+[.,]?\d{0,2})/i;
-
+    const totalAmountPattern = /TOTAL(?:\sAMOUNT)?(?:\sDUE)?\s*[:$]*\s*(\d{1,3}(?:,\d{3})*(\.\d{0,2})?|\.\d{1,2})/i;
+  
     let merchantName = '';
     let date = '';
     let totalAmount = '';
+    let linesWithNumericValues = [];
   
     // Split the text by lines for easier processing
     const lines = text.split('\n');
   
-    // Attempt to find the merchant name
-    for (const line of lines) {
-      const merchantMatch = merchantNamePattern.exec(line);
-      if (merchantMatch) {
-        merchantName = merchantMatch[1].trim();
-        break; // Stop after finding the first match
+    lines.forEach(line => {
+      if (!merchantName && merchantNamePattern.test(line)) {
+        merchantName = line.match(merchantNamePattern)[0].trim();
       }
-    }
-  
-    // Attempt to find the date and total amount using the lines
-    for (const line of lines) {
-      if (!date) {
-        const dateMatch = datePattern.exec(line);
-        if (dateMatch) {
-          date = dateMatch[0];
-        }
+    
+      if (!date && datePattern.test(line)) {
+        date = line.match(datePattern)[0];
       }
-      if (!totalAmount) {
+    
+      if (totalAmountPattern.test(line)) {
         const totalAmountMatch = totalAmountPattern.exec(line);
         if (totalAmountMatch) {
-          totalAmount = totalAmountMatch[1].replace(/[.,\s]/g, ''); // Remove any punctuation or white spaces in the captured amount
+          totalAmount = totalAmountMatch[1].replace(/,/g, ''); // Remove commas for thousands
         }
       }
-      
-      // Stop searching if both date and total amount are found
-      if (date && totalAmount) break;
+    
+      // Find lines containing numeric values
+      const numericMatches = line.match(numericValuePattern);
+      if (numericMatches) {
+        // Check if there's only one numeric value in the line
+        if (numericMatches.length === 1) {
+          linesWithNumericValues.push(numericMatches);
+        }
+      }
+    });
+    
+  
+    // Sort lines with numeric values in ascending order
+    linesWithNumericValues.sort((a, b) => {
+      const sumA = a.reduce((acc, val) => acc + parseFloat(val.replace(',', '')), 0);
+      const sumB = b.reduce((acc, val) => acc + parseFloat(val.replace(',', '')), 0);
+      return sumA - sumB;
+    });
+  
+    // Identify the total amount due
+    if (linesWithNumericValues.length >= 2) {
+      // The second to the last numeric line is considered the total amount due
+      const totalAmountLine = linesWithNumericValues[linesWithNumericValues.length - 2];
+      totalAmount = totalAmountLine.reduce((acc, val) => acc + parseFloat(val.replace(',', '')), 0);
     }
   
-    console.log(`Merchant Name: ${merchantName}, Date: ${date}, Total Amount: ${totalAmount}`);
-    // ... additional processing logic
-};
+    // Log the extracted details
+    console.log(`Merchant Name: ${merchantName}`);
+    console.log(`Date: ${date}`);
+    console.log(`Total Amount: ${totalAmount}`);
+    console.log('Lines with Numeric Values:');
+    linesWithNumericValues.forEach((line, index) => {
+      console.log(`Line ${index + 1}: ${line.join(', ')}`);
+  });
+    return { merchantName, date, totalAmount };
+  };
+  
   
 
   if (hasCameraPermission === null) {
