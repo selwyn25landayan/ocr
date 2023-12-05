@@ -76,47 +76,49 @@ export default function HistoryScreen({ navigation }) {
         </View>
       </View>
 
-      <View style={styles.buttonContainer}>
-        {/* Button views */}
-        <Pressable
-          style={styles.buttonStyle(screenWidth)}
-          onPress={() => handleButtonPress("Button 1")}
-        >
-          <Image
-            source={ButtonImage1}
-            style={styles.buttonImage(screenWidth)}
-            resizeMode="contain"
-          />
-        </Pressable>
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <View style={styles.buttonContainer}>
+          {/* Button views */}
+          <Pressable
+            style={styles.buttonStyle(screenWidth)}
+            onPress={() => handleButtonPress("Button 1")}
+          >
+            <Image
+              source={ButtonImage1}
+              style={styles.buttonImage(screenWidth)}
+              resizeMode="contain"
+            />
+          </Pressable>
 
-        <Pressable style={styles.buttonStyle(screenWidth)}>
-          <Image
-            source={ButtonImage2}
-            style={styles.buttonImage(screenWidth)}
-            resizeMode="contain"
-          />
-        </Pressable>
-        <Pressable
-          style={styles.buttonStyle(screenWidth)}
-          onPress={() => navigation.navigate("DashboardScreen")}
-        >
-          <Image
-            source={ButtonImage3}
-            style={styles.buttonImage(screenWidth)}
-            resizeMode="contain"
-          />
-        </Pressable>
-        <Pressable
-          style={styles.buttonStyle(screenWidth)}
-          onPress={() => handleButtonPress("Button 4")}
-        >
-          <Image
-            source={ButtonImage4}
-            style={styles.buttonImage(screenWidth)}
-            resizeMode="contain"
-          />
-        </Pressable>
-    
+          <Pressable style={styles.buttonStyle(screenWidth)}>
+            <Image
+              source={ButtonImage2}
+              style={styles.buttonImage(screenWidth)}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <Pressable
+            style={styles.buttonStyle(screenWidth)}
+            onPress={() => navigation.navigate("DashboardScreen")}
+          >
+            <Image
+              source={ButtonImage3}
+              style={styles.buttonImage(screenWidth)}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <Pressable
+            style={styles.buttonStyle(screenWidth)}
+            onPress={() => navigation.navigate("UserScreen")}
+          >
+            <Image
+              source={ButtonImage4}
+              style={styles.buttonImage(screenWidth)}
+              resizeMode="contain"
+            />
+          </Pressable>
+      
+        </View>
       </View>
     </View>
   );

@@ -4,8 +4,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./loginScreen";
 import SignUpScreen from "./signupScreen";
 import DashboardScreen from "./dashboardScreen";
-import HistoryScreen from "./history"; 
+import HistoryScreen from "./historyScreen";
 import CameraDisplay from "./cameraDisplay"; 
+import UserProfileScreen from "./userScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
         <Stack.Screen name="HistoryScreen" component={HistoryScreen} />
         <Stack.Screen name="OCR" component={CameraDisplay} />
+        <Stack.Screen name="UserScreen" component={UserProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

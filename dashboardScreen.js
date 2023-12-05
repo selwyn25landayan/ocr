@@ -49,21 +49,6 @@ export default function DashboardScreen({ navigation }) {
       <Text style={[styles.title, { fontSize: screenWidth * 0.05 }]}>Dashboard</Text>
       <Text style={[styles.date, { fontSize: screenWidth * 0.03 }]}>{currentDate}</Text>
       
-      <PieChart
-        data={chartData}
-        width={screenWidth * 0.9} 
-        height={170} 
-        chartConfig={{
-          backgroundGradientFrom: "black",
-          backgroundGradientTo: "black",
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        }}
-        accessor="population"
-        backgroundColor="transparent"
-        paddingLeft="15"
-        absolute
-      />
-      
       <BarChart
         data={barChartData}
         width={screenWidth * 0.95}
@@ -92,47 +77,50 @@ export default function DashboardScreen({ navigation }) {
         bezier
       />
 
-      <View style={styles.buttonContainer}>
-        <Pressable
-          style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
-          onPress={() => handleButtonPress("Button 1")}
-        >
-          <Image
-            source={ButtonImage1}
-            style={[styles.buttonImage, { width: 30, height: 30 }]}
-            resizeMode="contain"
-          />
-        </Pressable>
-        <Pressable
-          style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
-          onPress={() => navigation.navigate("HistoryScreen")}
-        >
-          <Image
-            source={ButtonImage2}
-            style={[styles.buttonImage, { width: 30, height: 30 }]}
-            resizeMode="contain"
-          />
-        </Pressable>
-        <Pressable
-          style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
-          onPress={() => handleButtonPress("Button 3")}
-        >
-          <Image
-            source={ButtonImage3}
-            style={[styles.buttonImage, { width: 30, height: 30 }]}
-            resizeMode="contain"
-          />
-        </Pressable>
-        <Pressable
-          style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
-          onPress={() => handleButtonPress("Button 4")}
-        >
-          <Image
-            source={ButtonImage4}
-            style={[styles.buttonImage, { width: 30, height: 30 }]}
-            resizeMode="contain"
-          />
-        </Pressable>
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+
+        <View style={styles.buttonContainer}>
+          <Pressable
+            style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
+            onPress={() => handleButtonPress("Button 1")}
+          >
+            <Image
+              source={ButtonImage1}
+              style={[styles.buttonImage, { width: 30, height: 30 }]}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <Pressable
+            style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
+            onPress={() => navigation.navigate("HistoryScreen")}
+          >
+            <Image
+              source={ButtonImage2}
+              style={[styles.buttonImage, { width: 30, height: 30 }]}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <Pressable
+            style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
+            onPress={() => handleButtonPress("Button 3")}
+          >
+            <Image
+              source={ButtonImage3}
+              style={[styles.buttonImage, { width: 30, height: 30 }]}
+              resizeMode="contain"
+            />
+          </Pressable>
+          <Pressable
+            style={[styles.buttonStyle, { padding: screenWidth * 0.02 }]}
+            onPress={() => navigation.navigate("UserScreen")}
+          >
+            <Image
+              source={ButtonImage4}
+              style={[styles.buttonImage, { width: 30, height: 30 }]}
+              resizeMode="contain"
+            />
+          </Pressable>
+        </View>
       </View>
     </View>
   );
